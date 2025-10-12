@@ -34,7 +34,9 @@ const closeModal = document.getElementById('closeModal');
 ======================= */
 const API_KEY = 'QamwyZ2wenX5UKgL12Or1INNlURox2JaCY8CplWd';
 const APOD_EARLIEST = '1995-06-16';
-const TARGET_COUNT = 9;
+
+// how many cards to render
+let desiredCount = 9; // default for custom range / rubric
 
 /* =======================
    Random Space Facts
@@ -60,6 +62,7 @@ function showRandomFact() {
 /* =======================
    Date Helpers
 ======================= */
+// toISO adjusted for timezone so “today” isn’t tomorrow in UTC
 const toISO = d => new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10);
 
 function setDateInputs(minISO, maxISO, startISO, endISO) {
@@ -71,13 +74,15 @@ function setDefaultDates() {
   const now = new Date();
   const end = toISO(now);
   const startObj = new Date(now);
-  startObj.setDate(now.getDate() - (TARGET_COUNT - 1)); // last 9 days
+  // default to last 9 days for rubric
+  startObj.setDate(now.getDate() - (9 - 1));
   const start = toISO(startObj);
   setDateInputs(APOD_EARLIEST, end, start, end);
+  desiredCount = 9;
 }
 
 function validRange(start, end) {
-  return new Date(start) <= new Date(end);
+  return new Date(start) <= new Date(end) && new Date(end) <= new Date();
 }
 
 function setRangeAndFetch(days) {
@@ -87,13 +92,14 @@ function setRangeAndFetch(days) {
   const s = toISO(start);
   const e = toISO(end);
   setDateInputs(APOD_EARLIEST, e, s, e);
+  desiredCount = days;          // show 1, 7, or 30 cards
   fetchImages();
 }
 
 /* =======================
    UI Helpers (skeletons)
 ======================= */
-function showSkeletons(n = TARGET_COUNT) {
+function showSkeletons(n = desiredCount) {
   if (!gallery) return;
   loading?.classList.add('hidden');
   gallery.innerHTML = `
@@ -124,7 +130,7 @@ async function fetchTodayForHero() {
     heroTitle.textContent = item.title || 'Astronomy Picture of the Day';
     heroDate.textContent  = item.date || '';
   } catch (_) {
-    // fail silently—hero is optional
+    // silent fail
   }
 }
 
@@ -138,7 +144,7 @@ async function fetchImages() {
   const end   = endDate?.value;
 
   if (!start || !end) { alert('Please select both start and end dates.'); return; }
-  if (!validRange(start, end)) { alert('Start date must be before or equal to end date.'); return; }
+  if (!validRange(start, end)) { alert('Dates must be valid and not in the future.'); return; }
 
   gallery.innerHTML = '';
   loading?.classList.remove('hidden');
@@ -157,9 +163,9 @@ async function fetchImages() {
       return;
     }
 
-    const items = data
-      .sort((a, b) => new Date(b.date) - new Date(a.date))  // newest first
-      .slice(0, TARGET_COUNT);
+    // newest first; render up to desiredCount
+    const items = data.sort((a, b) => new Date(b.date) - new Date(a.date))
+                      .slice(0, desiredCount);
 
     gallery.innerHTML = '';
     for (const item of items) {
@@ -168,7 +174,7 @@ async function fetchImages() {
 
       if (item.media_type === 'video') {
         const host = (() => { try { return new URL(item.url).host; } catch { return 'source'; } })();
-        const thumb = item.thumbnail_url ? `<img src="${item.thumbnail_url}" alt="${item.title}" loading="lazy">` : '';
+        const thumb = item.thumbnail_url ? `<img src="${item.thumbnail_url}" alt="${item.title || 'Video'}" loading="lazy">` : '';
         card.innerHTML = `
           ${thumb}
           <div class="info">
@@ -224,7 +230,7 @@ modal?.addEventListener('click', (e) => {
   if (!inside) modal.close();
 });
 
-// esc to close (dialog handles this in most browsers; this keeps parity)
+// esc to close
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && modal?.open) modal.close();
 });
@@ -233,7 +239,6 @@ document.addEventListener('keydown', (e) => {
    Events / Init
 ======================= */
 fetchBtn?.addEventListener('click', fetchImages);
-
 todayBtn?.addEventListener('click', () => setRangeAndFetch(1));
 last7Btn?.addEventListener('click',  () => setRangeAndFetch(7));
 last30Btn?.addEventListener('click', () => setRangeAndFetch(30));
