@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NASA Space Explorer</title>
+  <meta name="description" content="Explore NASA's Astronomy Picture of the Day (APOD) across a custom date range. Built with NASA's API.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <img src="https://www.nasa.gov/sites/default/files/thumbnails/image/nasa-logo-web-rgb.png" alt="NASA Logo" class="logo">
+    <h1>NASA Space Explorer</h1>
+  </header>
+
+  <main class="container">
+    <section class="fact" id="spaceFact" aria-live="polite"></section>
+
+    <section class="controls">
+      <label>Start Date: <input type="date" id="startDate"></label>
+      <label>End Date: <input type="date" id="endDate"></label>
+      <button id="fetchBtn">Get Space Images</button>
+    </section>
+
+    <p id="loading" class="loading hidden">🔄 Loading space photos...</p>
+
+    <section id="gallery" class="gallery"></section>
+  </main>
+
+  <footer class="footer">
+    <p>Data courtesy of NASA's Astronomy Picture of the Day (APOD) API.</p>
+  </footer>
+
+  <dialog id="modal" class="modal">
+    <div class="modal-content">
+      <button id="closeModal" class="close">&times;</button>
+      <img id="modalImg" src="" alt="NASA Image">
+      <h2 id="modalTitle"></h2>
+      <p id="modalDate"></p>
+      <p id="modalDesc"></p>
+    </div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
