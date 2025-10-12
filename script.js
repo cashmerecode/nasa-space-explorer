@@ -1,20 +1,22 @@
 'use strict';
 
-// ===== DOM References =====
-const gallery     = document.getElementById('gallery');
-const fetchBtn    = document.getElementById('fetchBtn');
-const startDate   = document.getElementById('startDate');
-const endDate     = document.getElementById('endDate');
-const loading     = document.getElementById('loading');
-const factEl      = document.getElementById('spaceFact');
+/* =======================
+   DOM References
+======================= */
+const gallery   = document.getElementById('gallery');
+const fetchBtn  = document.getElementById('fetchBtn');
+const startDate = document.getElementById('startDate');
+const endDate   = document.getElementById('endDate');
+const loading   = document.getElementById('loading');
+const factEl    = document.getElementById('spaceFact');
 
-// Preset buttons (optional in HTML)
-const todayBtn    = document.getElementById('todayBtn');
-const last7Btn    = document.getElementById('last7Btn');
-const last30Btn   = document.getElementById('last30Btn');
-const newFactBtn  = document.getElementById('newFactBtn');
+// Preset buttons (match HTML ids)
+const todayBtn  = document.getElementById('btnToday');
+const last7Btn  = document.getElementById('btn7');
+const last30Btn = document.getElementById('btn30');
+const newFactBtn= document.getElementById('newFactBtn');
 
-// Hero (optional in HTML)
+// Hero (today’s APOD)
 const heroImg   = document.getElementById('heroImg');
 const heroTitle = document.getElementById('heroTitle');
 const heroDate  = document.getElementById('heroDate');
@@ -27,14 +29,16 @@ const modalDate  = document.getElementById('modalDate');
 const modalDesc  = document.getElementById('modalDesc');
 const closeModal = document.getElementById('closeModal');
 
-// ===== NASA API Key =====
+/* =======================
+   Config / Constants
+======================= */
 const API_KEY = 'QamwyZ2wenX5UKgL12Or1INNlURox2JaCY8CplWd';
+const APOD_EARLIEST = '1995-06-16';
+const TARGET_COUNT = 9;
 
-// ===== Constants =====
-const APOD_EARLIEST = '1995-06-16'; // first APOD date
-const TARGET_COUNT  = 9;
-
-// ===== Random Space Facts =====
+/* =======================
+   Random Space Facts
+======================= */
 const facts = [
   'One day on Venus is longer than one year on Venus.',
   'Neutron stars can spin 600 times per second.',
@@ -47,30 +51,27 @@ const facts = [
   'There’s a planet made of diamonds called 55 Cancri e.',
   'Space smells like seared steak and hot metal according to astronauts.'
 ];
-
 function showRandomFact() {
   if (!factEl) return;
-  const randomFact = facts[Math.floor(Math.random() * facts.length)];
-  factEl.textContent = `🛰️ Did you know? ${randomFact}`;
+  const text = facts[Math.floor(Math.random() * facts.length)];
+  factEl.textContent = `🛰️ Did you know? ${text}`;
 }
 
-// ===== Date Helpers =====
-const toISO = d => d.toISOString().slice(0, 10);
+/* =======================
+   Date Helpers
+======================= */
+const toISO = d => new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10);
 
 function setDateInputs(minISO, maxISO, startISO, endISO) {
-  if (startDate) {
-    startDate.min = minISO; startDate.max = maxISO; startDate.value = startISO;
-  }
-  if (endDate) {
-    endDate.min = minISO; endDate.max = maxISO; endDate.value = endISO;
-  }
+  if (startDate) { startDate.min = minISO; startDate.max = maxISO; startDate.value = startISO; }
+  if (endDate)   { endDate.min   = minISO; endDate.max   = maxISO; endDate.value   = endISO; }
 }
 
 function setDefaultDates() {
   const now = new Date();
   const end = toISO(now);
   const startObj = new Date(now);
-  startObj.setDate(now.getDate() - (TARGET_COUNT - 1)); // 9 consecutive days
+  startObj.setDate(now.getDate() - (TARGET_COUNT - 1)); // last 9 days
   const start = toISO(startObj);
   setDateInputs(APOD_EARLIEST, end, start, end);
 }
@@ -89,10 +90,12 @@ function setRangeAndFetch(days) {
   fetchImages();
 }
 
-// ===== UI Helpers =====
+/* =======================
+   UI Helpers (skeletons)
+======================= */
 function showSkeletons(n = TARGET_COUNT) {
   if (!gallery) return;
-  loading && loading.classList.add('hidden');
+  loading?.classList.add('hidden');
   gallery.innerHTML = `
     <div class="skeleton-grid">
       ${Array.from({ length: n }).map(() => `<div class="skeleton"></div>`).join('')}
@@ -100,14 +103,15 @@ function showSkeletons(n = TARGET_COUNT) {
   `;
 }
 function clearSkeletons() {
-  if (!gallery) return;
-  const grid = gallery.querySelector('.skeleton-grid');
+  const grid = gallery?.querySelector('.skeleton-grid');
   if (grid) grid.remove();
 }
 
-// ===== Fetch Today (Hero) =====
+/* =======================
+   Hero: today’s APOD
+======================= */
 async function fetchTodayForHero() {
-  if (!heroImg || !heroTitle || !heroDate) return; // hero section not present
+  if (!heroImg || !heroTitle || !heroDate) return;
   try {
     const url = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&thumbs=true`;
     const res = await fetch(url);
@@ -116,43 +120,35 @@ async function fetchTodayForHero() {
 
     const isVideo = item.media_type === 'video';
     const src = isVideo ? (item.thumbnail_url || '') : (item.url || item.hdurl || '');
-    if (src) {
-      heroImg.src = src;
-      heroImg.alt = item.title || 'NASA APOD';
-    }
+    if (src) { heroImg.src = src; heroImg.alt = item.title || 'NASA APOD'; }
     heroTitle.textContent = item.title || 'Astronomy Picture of the Day';
     heroDate.textContent  = item.date || '';
-  } catch (e) {
-    // Silent fallback—hero is optional
+  } catch (_) {
+    // fail silently—hero is optional
   }
 }
 
-// ===== Fetch NASA Images =====
+/* =======================
+   Gallery Fetch
+======================= */
 async function fetchImages() {
   if (!gallery) return;
 
   const start = startDate?.value;
   const end   = endDate?.value;
 
-  if (!start || !end) {
-    alert('Please select both start and end dates.');
-    return;
-  }
-  if (!validRange(start, end)) {
-    alert('Start date must be before or equal to end date.');
-    return;
-  }
+  if (!start || !end) { alert('Please select both start and end dates.'); return; }
+  if (!validRange(start, end)) { alert('Start date must be before or equal to end date.'); return; }
 
   gallery.innerHTML = '';
-  loading && loading.classList.remove('hidden');
+  loading?.classList.remove('hidden');
   showSkeletons();
 
   try {
-    // Use &thumbs=true so video entries return a thumbnail_url
     const url = `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&start_date=${start}&end_date=${end}&thumbs=true`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
 
     clearSkeletons();
 
@@ -161,8 +157,9 @@ async function fetchImages() {
       return;
     }
 
-    // Newest first and limit to 9
-    const items = data.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, TARGET_COUNT);
+    const items = data
+      .sort((a, b) => new Date(b.date) - new Date(a.date))  // newest first
+      .slice(0, TARGET_COUNT);
 
     gallery.innerHTML = '';
     for (const item of items) {
@@ -198,29 +195,28 @@ async function fetchImages() {
     console.error('APOD fetch failed:', err);
     gallery.innerHTML = `<p>🚨 Failed to load NASA data (${err.message}). Please try again later.</p>`;
   } finally {
-    loading && loading.classList.add('hidden');
+    loading?.classList.add('hidden');
     clearSkeletons();
   }
 }
 
-// ===== Modal =====
+/* =======================
+   Modal
+======================= */
 function openModal(item) {
   if (!modal) return;
   const imgSrc = item.hdurl || item.url || '';
-  if (modalImg) {
-    modalImg.src = imgSrc;
-    modalImg.alt = item.title || 'NASA Image';
-  }
+  if (modalImg)   { modalImg.src = imgSrc; modalImg.alt = item.title || 'NASA Image'; }
   if (modalTitle) modalTitle.textContent = item.title || 'Untitled';
   if (modalDate)  modalDate.textContent  = item.date || '';
   if (modalDesc)  modalDesc.textContent  = item.explanation || 'No description available.';
   modal.showModal();
 }
 
-closeModal && closeModal.addEventListener('click', () => modal.close());
+closeModal?.addEventListener('click', () => modal.close());
 
-// Close when clicking backdrop
-modal && modal.addEventListener('click', (e) => {
+// close on backdrop click
+modal?.addEventListener('click', (e) => {
   const content = modal.querySelector('.modal-content');
   if (!content) return;
   const r = content.getBoundingClientRect();
@@ -228,23 +224,23 @@ modal && modal.addEventListener('click', (e) => {
   if (!inside) modal.close();
 });
 
-// Esc key (dialog usually handles this, but keep parity)
+// esc to close (dialog handles this in most browsers; this keeps parity)
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && modal?.open) modal.close();
 });
 
-// ===== Events =====
-fetchBtn && fetchBtn.addEventListener('click', fetchImages);
+/* =======================
+   Events / Init
+======================= */
+fetchBtn?.addEventListener('click', fetchImages);
 
-// Presets (optional in HTML)
-todayBtn  && todayBtn.addEventListener('click', () => setRangeAndFetch(1));
-last7Btn  && last7Btn.addEventListener('click', () => setRangeAndFetch(7));
-last30Btn && last30Btn.addEventListener('click', () => setRangeAndFetch(30));
-newFactBtn && newFactBtn.addEventListener('click', showRandomFact);
+todayBtn?.addEventListener('click', () => setRangeAndFetch(1));
+last7Btn?.addEventListener('click',  () => setRangeAndFetch(7));
+last30Btn?.addEventListener('click', () => setRangeAndFetch(30));
+newFactBtn?.addEventListener('click', showRandomFact);
 
-// Init
 window.addEventListener('load', () => {
   setDefaultDates();
   showRandomFact();
-  fetchTodayForHero(); // harmless if hero not present
+  fetchTodayForHero();
 });
