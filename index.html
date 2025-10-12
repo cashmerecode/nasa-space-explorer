@@ -7,7 +7,7 @@
   <title>NASA Space Explorer</title>
   <meta name="description" content="Explore NASA's Astronomy Picture of the Day (APOD) with custom date ranges using NASA's API." />
 
-  <!-- Favicon / App Icons (add these files to /assets) -->
+  <!-- Favicon / App Icons (optional — place files in /assets) -->
   <link rel="icon" type="image/png" href="assets/favicon.png" />
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
 
@@ -15,17 +15,17 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Site Header -->
+  <!-- Header -->
   <header class="topbar">
     <a href="https://www.nasa.gov" target="_blank" rel="noopener">
-      <!-- Prefer local logo file to avoid hotlink/CORS issues -->
+      <!-- Prefer local asset to avoid hotlinking -->
       <img src="assets/nasa-logo.png" alt="NASA" class="logo" width="48" height="48" decoding="async" />
     </a>
     <h1>NASA Space Explorer</h1>
   </header>
 
   <main class="container">
-    <!-- Hero: shows today's APOD on load (JS will populate) -->
+    <!-- Hero (today’s APOD — populated by JS) -->
     <section id="hero" class="hero" aria-live="polite">
       <img id="heroImg" alt="" class="hero-img" />
       <div class="hero-copy">
@@ -37,16 +37,27 @@
     <!-- Random Space Fact -->
     <section id="spaceFact" class="fact" aria-live="polite"></section>
 
-    <!-- Controls -->
-    <section class="controls" aria-label="Date range selector">
-      <label for="startDate">Start Date
-        <input type="date" id="startDate" />
-      </label>
-      <label for="endDate">End Date
-        <input type="date" id="endDate" />
-      </label>
-      <button id="fetchBtn" aria-busy="false">Get Space Images</button>
-    </section>
+    <!-- Quick Presets + Custom Range -->
+    <div class="controls-stack">
+      <div class="button-row" role="group" aria-label="Quick date range presets">
+        <button id="btnToday" class="btn" type="button">Today</button>
+        <button id="btn7" class="btn" type="button">Last 7 Days</button>
+        <button id="btn30" class="btn" type="button">Last 30 Days</button>
+        <button id="newFactBtn" class="btn ghost" type="button">🔁 New Fact</button>
+      </div>
+
+      <div class="divider" aria-hidden="true">or choose a custom range</div>
+
+      <section class="controls" aria-label="Custom date range">
+        <label for="startDate">Start Date
+          <input type="date" id="startDate" />
+        </label>
+        <label for="endDate">End Date
+          <input type="date" id="endDate" />
+        </label>
+        <button id="fetchBtn" aria-busy="false" type="button">Get Space Images</button>
+      </section>
+    </div>
 
     <!-- Loading + Skeletons -->
     <p id="loading" class="loading hidden">🔄 Loading space photos…</p>
@@ -76,7 +87,7 @@
     </div>
   </dialog>
 
-  <!-- Scripts -->
+  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>
