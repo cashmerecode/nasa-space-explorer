@@ -3,46 +3,80 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>NASA Space Explorer</title>
   <meta name="description" content="Explore NASA's Astronomy Picture of the Day (APOD) with custom date ranges using NASA's API." />
+
+  <!-- Favicon / App Icons (add these files to /assets) -->
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+
+  <!-- Styles -->
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Site Header -->
   <header class="topbar">
-    <img src="https://www.nasa.gov/sites/default/files/thumbnails/image/nasa-logo-web-rgb.png" alt="NASA Logo" class="logo" />
+    <a href="https://www.nasa.gov" target="_blank" rel="noopener">
+      <!-- Prefer local logo file to avoid hotlink/CORS issues -->
+      <img src="assets/nasa-logo.png" alt="NASA" class="logo" width="48" height="48" decoding="async" />
+    </a>
     <h1>NASA Space Explorer</h1>
   </header>
 
   <main class="container">
-    <section id="spaceFact" class="fact" aria-live="polite"></section>
-
-    <section class="controls">
-      <label for="startDate">Start Date:</label>
-      <input type="date" id="startDate" />
-      <label for="endDate">End Date:</label>
-      <input type="date" id="endDate" />
-      <button id="fetchBtn">Get Space Images</button>
+    <!-- Hero: shows today's APOD on load (JS will populate) -->
+    <section id="hero" class="hero" aria-live="polite">
+      <img id="heroImg" alt="" class="hero-img" />
+      <div class="hero-copy">
+        <h2 id="heroTitle"></h2>
+        <p id="heroDate" class="muted"></p>
+      </div>
     </section>
 
-    <p id="loading" class="loading hidden">🔄 Loading space photos...</p>
+    <!-- Random Space Fact -->
+    <section id="spaceFact" class="fact" aria-live="polite"></section>
 
-    <section id="gallery" class="gallery"></section>
+    <!-- Controls -->
+    <section class="controls" aria-label="Date range selector">
+      <label for="startDate">Start Date
+        <input type="date" id="startDate" />
+      </label>
+      <label for="endDate">End Date
+        <input type="date" id="endDate" />
+      </label>
+      <button id="fetchBtn" aria-busy="false">Get Space Images</button>
+    </section>
+
+    <!-- Loading + Skeletons -->
+    <p id="loading" class="loading hidden">🔄 Loading space photos…</p>
+    <div id="skeletons" class="skeleton-grid hidden" aria-hidden="true">
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+    </div>
+
+    <!-- Gallery -->
+    <section id="gallery" class="gallery" aria-live="polite" aria-busy="false"></section>
   </main>
 
+  <!-- Footer -->
   <footer class="footer">
     <p>Data courtesy of NASA’s Astronomy Picture of the Day (APOD) API.</p>
   </footer>
 
-  <dialog id="modal" class="modal">
-    <div class="modal-content">
+  <!-- Modal -->
+  <dialog id="modal" class="modal" aria-labelledby="modalTitle">
+    <div class="modal-content" role="document">
       <button id="closeModal" class="close" aria-label="Close">&times;</button>
-      <img id="modalImg" src="" alt="NASA Image" />
+      <img id="modalImg" src="" alt="" />
       <h2 id="modalTitle"></h2>
-      <p id="modalDate"></p>
+      <p id="modalDate" class="muted"></p>
       <p id="modalDesc"></p>
     </div>
   </dialog>
 
+  <!-- Scripts -->
   <script src="script.js"></script>
 </body>
 </html>
