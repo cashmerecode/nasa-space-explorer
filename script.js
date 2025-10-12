@@ -42,16 +42,36 @@ let desiredCount = 9; // default for custom range / rubric
    Random Space Facts
 ======================= */
 const facts = [
-  'One day on Venus is longer than one year on Venus.',
-  'Neutron stars can spin 600 times per second.',
-  'There are more stars in the universe than grains of sand on Earth.',
-  'Jupiter’s Great Red Spot is a storm that’s been raging for at least 350 years.',
-  'A day on Mars is just 40 minutes longer than a day on Earth.',
-  'The footprints on the Moon will stay there for millions of years.',
-  'Saturn could float in water because it’s mostly made of gas.',
-  'The Sun accounts for 99.86% of the mass in our solar system.',
-  'There’s a planet made of diamonds called 55 Cancri e.',
-  'Space smells like seared steak and hot metal according to astronauts.'
+  'One day on Venus is longer than one year on Venus.', // ✅ True – Venus rotates once every 243 Earth days, orbits in 225.
+  'Neutron stars can spin 600 times per second.', // ✅ True – some spin over 700 times/sec.
+  'There are more stars in the universe than grains of sand on Earth.', // ✅ Roughly True – 10²⁴ stars vs ~10²³ grains of sand.
+  'Jupiter’s Great Red Spot is a storm that’s been raging for at least 350 years.', // ✅ True – observed since the 1600s.
+  'A day on Mars is just 40 minutes longer than a day on Earth.', // ✅ True – 24h 39m 35s.
+  'The footprints on the Moon will stay there for millions of years.', // ✅ True – no wind or rain to erode them.
+  'Saturn could float in water because it’s mostly made of gas.', // ✅ True in theory – mean density < 1 g/cm³.
+  'The Sun accounts for 99.86% of the mass in our solar system.', // ✅ True – verified by astrophysical calculations.
+  'There’s a planet made of diamonds called 55 Cancri e.', // ⚠️ Unconfirmed – early theory, but newer data suggests a silicate-rich composition.
+  'Space smells like seared steak and hot metal according to astronauts.', // ✅ True – based on odors on space suits after EVAs.
+  'Mercury has virtually no atmosphere, so its temperature swings by 600°F between day and night.', // ✅ True – ranges from ~800°F day to -290°F night.
+  'A teaspoon of a neutron star would weigh about 6 billion tons on Earth.', // ✅ True – density ~4×10¹⁷ kg/m³.
+  'If you could drive a car straight up, you’d reach space in just over an hour.', // ✅ True – 100 km / 60 mph ≈ 1 hour.
+  'The Milky Way is on a collision course with the Andromeda Galaxy, expected to merge in about 4.5 billion years.', // ✅ True – confirmed by Hubble and Gaia.
+  'Light from the Sun takes about 8 minutes and 20 seconds to reach Earth.', // ✅ True – ~499 seconds.
+  'A year on Neptune lasts about 165 Earth years.', // ✅ True.
+  'There are rogue planets drifting through space with no star to orbit.', // ✅ True – several confirmed.
+  'Pluto’s heart-shaped region is made mostly of nitrogen ice.', // ✅ True – confirmed by New Horizons data.
+  'The hottest planet in our solar system is Venus, not Mercury.', // ✅ True – Venus ~900°F due to CO₂ atmosphere.
+  'Astronauts grow about 2 inches taller in space due to spinal decompression in microgravity.', // ✅ True – temporary spinal elongation.
+  'A day on Mercury lasts longer than its year.', // ✅ True – rotates every 59 days, orbits in 88 days.
+  'Black holes do not actually “suck” matter; they pull via gravity just like any other massive object.', // ✅ True.
+  'The largest volcano in the solar system is Olympus Mons on Mars.', // ✅ True – ~2.5 times Everest’s height.
+  'A year on Earth is getting longer due to the Moon’s gravitational drag.', // ✅ True – about 1.7 milliseconds per century.
+  'The Sun will eventually expand into a red giant and engulf Mercury and Venus.', // ✅ True – about 5 billion years from now.
+  'The coldest known place in the universe is the Boomerang Nebula at -458°F (-272°C).', // ✅ True – just 1 K above absolute zero.
+  'Some exoplanets rain molten glass sideways due to extreme winds.', // ✅ True – example: HD 189733b.
+  'The universe has no known edge; it’s still expanding in all directions.', // ✅ True – confirmed by cosmological observations.
+  'There are more trees on Earth than stars in the Milky Way.', // ✅ True – ~3 trillion trees vs 100–400 billion stars.
+  'Astronauts lose bone mass in space at about 1% per month without exercise.' // ✅ True – documented ISS studies.
 ];
 function showRandomFact() {
   if (!factEl) return;
