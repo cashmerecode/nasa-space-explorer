@@ -2,116 +2,171 @@
   --nasa-blue: #0b3d91;
   --nasa-red: #fc3d21;
   --bg-dark: #0b0d17;
+  --card-bg: #111;
   --text-light: #ffffff;
   --muted: #cbd5e1;
-  --shadow: 0 4px 20px rgba(0,0,0,0.4);
+  --shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  --radius: 10px;
 }
 
-* { box-sizing: border-box; }
+/* ===== Reset ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background: var(--bg-dark);
   color: var(--text-light);
-  margin: 0;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  line-height: 1.5;
 }
 
+/* ===== Header ===== */
 .topbar {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 12px 20px;
   background: var(--nasa-blue);
   box-shadow: var(--shadow);
 }
 
-.logo { height: 40px; width: auto; }
+.logo {
+  height: 40px;
+  width: auto;
+}
 
+h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ===== Main Container ===== */
 .container {
   flex: 1;
-  padding: 20px;
   max-width: 1100px;
-  margin: auto;
+  margin: 0 auto;
+  padding: 24px;
 }
 
+/* ===== Random Fact Box ===== */
 .fact {
-  background: #111;
+  background: var(--card-bg);
   border-left: 4px solid var(--nasa-red);
-  padding: 10px 14px;
-  border-radius: 6px;
+  padding: 12px 16px;
+  border-radius: var(--radius);
   margin-bottom: 20px;
   font-style: italic;
+  color: var(--muted);
 }
 
+/* ===== Controls ===== */
 .controls {
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
-.controls input, button {
+.controls label {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.controls input,
+.controls button {
   padding: 8px 12px;
-  border-radius: 6px;
+  border-radius: var(--radius);
   border: none;
   font-size: 15px;
+  outline: none;
+}
+
+.controls input[type="date"] {
+  background: #1a1a1a;
+  color: var(--text-light);
+  border: 1px solid #2c2c2c;
 }
 
 button {
   background: var(--nasa-red);
   color: #fff;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.25s ease, transform 0.15s ease;
 }
 
-button:hover { background: #e82e10; }
+button:hover {
+  background: #e12b10;
+  transform: translateY(-1px);
+}
 
+/* ===== Loading Text ===== */
 .loading {
   text-align: center;
   color: var(--muted);
+  font-size: 1rem;
+  margin: 10px 0;
 }
 
-.hidden { display: none; }
+.hidden {
+  display: none;
+}
 
+/* ===== Gallery ===== */
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
+  gap: 18px;
 }
 
 .card {
-  background: #111;
-  border-radius: 10px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover { transform: scale(1.05); }
+.card:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
 
-.card img { width: 100%; display: block; }
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
 
-.card .info { padding: 10px; }
+.card .info {
+  padding: 12px;
+}
 
-.card h3 { margin: 4px 0; font-size: 16px; }
+.card h3 {
+  margin: 4px 0;
+  font-size: 1.05rem;
+  color: #fff;
+}
 
-.card p { color: var(--muted); font-size: 14px; }
-
-.footer {
-  text-align: center;
-  padding: 16px;
+.card p {
   color: var(--muted);
-  font-size: 14px;
+  font-size: 0.9rem;
 }
 
+/* ===== Modal ===== */
 .modal {
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius);
   padding: 0;
   background: rgba(0, 0, 0, 0.85);
   color: var(--text-light);
@@ -120,22 +175,63 @@ button:hover { background: #e82e10; }
 .modal-content {
   max-width: 800px;
   margin: auto;
-  background: #111;
-  border-radius: 8px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
   padding: 20px;
+  box-shadow: var(--shadow);
+  position: relative;
 }
 
 .modal img {
   width: 100%;
-  border-radius: 8px;
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+}
+
+.modal h2 {
+  margin-bottom: 8px;
+}
+
+.modal p {
+  color: var(--muted);
   margin-bottom: 10px;
 }
 
 .close {
-  float: right;
+  position: absolute;
+  top: 10px;
+  right: 12px;
   background: none;
   border: none;
-  font-size: 24px;
   color: var(--text-light);
+  font-size: 28px;
   cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close:hover {
+  color: var(--nasa-red);
+}
+
+/* ===== Footer ===== */
+.footer {
+  text-align: center;
+  padding: 18px;
+  color: var(--muted);
+  font-size: 14px;
+  background: #0a0d19;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.4rem;
+  }
+  .controls {
+    flex-direction: column;
+  }
+  .card img {
+    height: 180px;
+  }
 }
