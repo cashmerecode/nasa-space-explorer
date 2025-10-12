@@ -1,7 +1,10 @@
 # 🚀 NASA Space Explorer
 
 Explore NASA’s “Astronomy Picture of the Day” (APOD) across any custom date range.  
-Built using NASA’s public API with HTML, CSS, and JavaScript.
+Built using NASA’s public API with HTML, CSS, and JavaScript.  
+
+🌐 **Live Demo:**  
+👉 [https://cashmerecode.github.io/nasa-space-explorer/](https://cashmerecode.github.io/nasa-space-explorer/)
 
 ---
 
