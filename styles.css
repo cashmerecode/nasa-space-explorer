@@ -46,7 +46,7 @@ h1 { font-size: clamp(1.25rem, 2vw, 1.8rem); font-weight: 800; letter-spacing: .
   grid-template-columns: 1.2fr 1fr;
   min-height: 280px;
 }
-.hero-img { width: 100%; height: 100%; object-fit: cover; }
+.hero-img { width: 100%; height: 100%; object-fit: cover; display:block; }
 .hero-copy {
   padding: 18px;
   display: flex; flex-direction: column; justify-content: center;
@@ -68,23 +68,12 @@ h1 { font-size: clamp(1.25rem, 2vw, 1.8rem); font-weight: 800; letter-spacing: .
 }
 
 /* ========== Controls Stack (Presets + Range) ========== */
-.controls-stack {
-  display: grid;
-  gap: 14px;
-  margin-bottom: 20px;
-}
+.controls-stack { display: grid; gap: 14px; margin-bottom: 20px; }
 .button-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
 }
 .divider {
-  text-align: center;
-  color: var(--muted);
-  font-size: .9rem;
-  opacity: .85;
-  margin-top: 4px;
+  text-align: center; color: var(--muted); font-size: .9rem; opacity: .85; margin-top: 4px;
 }
 
 /* ========== Buttons ========== */
@@ -104,15 +93,10 @@ button:active, .btn:active { transform: translateY(0); }
 button:focus-visible, .btn:focus-visible { outline: 3px solid #5ec2ff; outline-offset: 2px; }
 
 .btn.ghost {
-  background: #1a1f2e;
-  color: var(--muted);
-  border: 1px solid #2a324d;
-  box-shadow: none;
+  background: #1a1f2e; color: var(--muted);
+  border: 1px solid #2a324d; box-shadow: none;
 }
-.btn.ghost:hover {
-  background: #222a3f;
-  color: #fff;
-}
+.btn.ghost:hover { background: #222a3f; color: #fff; }
 
 /* ========== Controls ========== */
 .controls {
@@ -166,34 +150,20 @@ button:focus-visible, .btn:focus-visible { outline: 3px solid #5ec2ff; outline-o
 
 /* Optional “video” pill */
 .pill {
-  display: inline-block;
-  font-size: .75rem;
-  font-weight: 700;
-  letter-spacing: .3px;
-  background: #1d2a4d;
-  color: #9fc4ff;
-  border: 1px solid #2a3b68;
-  padding: 4px 8px;
-  border-radius: 999px;
-  margin-left: 6px;
+  display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: .3px;
+  background: #1d2a4d; color: #9fc4ff; border: 1px solid #2a3b68;
+  padding: 4px 8px; border-radius: 999px; margin-left: 6px;
 }
 
 /* ========== Modal ========== */
 .modal {
-  border: none;
-  border-radius: var(--radius);
-  padding: 0;
-  background: rgba(0, 0, 0, 0.7);
-  color: var(--text);
+  border: none; border-radius: var(--radius); padding: 0;
+  background: rgba(0, 0, 0, 0.7); color: var(--text);
 }
 .modal::backdrop { background: rgba(0, 0, 0, .55); }
 .modal-content {
-  max-width: 860px;
-  margin: auto;
-  background: var(--panel);
-  border-radius: var(--radius);
-  padding: 18px;
-  box-shadow: var(--shadow);
+  max-width: 860px; margin: auto; background: var(--panel);
+  border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow);
   position: relative;
 }
 .modal img { width: 100%; border-radius: var(--radius); margin-bottom: 10px; }
@@ -208,24 +178,18 @@ button:focus-visible, .btn:focus-visible { outline: 3px solid #5ec2ff; outline-o
 
 /* ========== Footer ========== */
 .footer {
-  text-align: center;
-  padding: 18px;
-  font-size: 14px;
-  color: var(--muted);
-  background: #0a0e1a;
-  border-top: 1px solid rgba(255,255,255,.05);
+  text-align: center; padding: 18px; font-size: 14px; color: var(--muted);
+  background: #0a0e1a; border-top: 1px solid rgba(255,255,255,.05);
 }
 
 /* ========== Responsive / Motion ========== */
 @media (prefers-reduced-motion: reduce) {
   .card, .skeleton { animation: none !important; transition: none !important; }
 }
-
 @media (max-width: 860px) {
   .hero { grid-template-columns: 1fr; min-height: 0; }
   .hero-img { height: 240px; }
 }
-
 @media (max-width: 600px) {
   .controls { flex-direction: column; align-items: stretch; }
   .controls input[type="date"] { width: 100%; min-width: 0; }
