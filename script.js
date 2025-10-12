@@ -42,7 +42,7 @@ let desiredCount = 9; // default for custom range / rubric
    Random Space Facts
 ======================= */
 const facts = [
-  'One day on Venus is longer than one year on Venus.', // ✅ True – Venus rotates once every 243 Earth days, orbits in 225.
+  'One day on Venus is longer than one year on Venus; how? because it rotates so slow"', // ✅ True – Venus rotates once every 243 Earth days, orbits in 225.
   'Neutron stars can spin 600 times per second.', // ✅ True – some spin over 700 times/sec.
   'There are more stars in the universe than grains of sand on Earth.', // ✅ Roughly True – 10²⁴ stars vs ~10²³ grains of sand.
   'Jupiter’s Great Red Spot is a storm that’s been raging for at least 350 years.', // ✅ True – observed since the 1600s.
