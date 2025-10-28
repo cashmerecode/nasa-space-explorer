@@ -1,4 +1,4 @@
-# 🚀 NASA Space Explorer: JSON Edition (updated version due to NASA API failure from lack of Ugovernment support/funding)
+# 🚀 NASA Space Explorer: JSON Edition (updated version due to NASA API failure from lack of U.S. government support/funding)
 Explore NASA’s *Astronomy Picture of the Day (APOD)* using a stable classroom-hosted JSON feed that mirrors NASA’s live API structure. Built with **HTML**, **CSS**, and **JavaScript**, this edition demonstrates resilient API handling and real-world adaptability.
 
 🌐 **Live Demo:** [https://cashmerecode.github.io/nasa-space-explorer/](https://cashmerecode.github.io/nasa-space-explorer/)
