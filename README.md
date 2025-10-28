@@ -1,46 +1,46 @@
-# 🚀 NASA Space Explorer
+# 🚀 NASA Space Explorer — JSON Edition
+Explore NASA’s *Astronomy Picture of the Day (APOD)* using a stable classroom-hosted JSON feed that mirrors NASA’s live API structure. Built with **HTML**, **CSS**, and **JavaScript**, this edition demonstrates resilient API handling and real-world adaptability.
 
-Explore NASA’s “Astronomy Picture of the Day” (APOD) across any custom date range.  
-Built using NASA’s public API with HTML, CSS, and JavaScript.  
-
-🌐 **Live Demo:**  
-👉 [https://cashmerecode.github.io/nasa-space-explorer/](https://cashmerecode.github.io/nasa-space-explorer/)
+🌐 **Live Demo:** [https://cashmerecode.github.io/nasa-space-explorer/](https://cashmerecode.github.io/nasa-space-explorer/)
 
 ---
 
 ## 🌌 Overview
+The **NASA Space Explorer (JSON Edition)** displays daily APOD-style entries — breathtaking images, videos, and explanations about our universe. Unlike the original NASA API version, this edition uses a **static JSON feed** to ensure reliability even when APIs are down.
 
-The NASA Space Explorer app connects directly to NASA’s APOD API to display daily space photos, titles, and explanations.  
-Users can select any date range and instantly view nine days of space imagery — complete with a modal view, video handling, and random fun space facts.
+**Data Feed:** `https://cdn.jsdelivr.net/gh/GCA-Classroom/apod/data.json`
+
+The JSON structure matches NASA’s API fields:  
+`date`, `title`, `explanation`, `media_type`, `url`, `hdurl`, and optional `thumbnail_url` for videos.
 
 ---
 
 ## 🛰️ Features
-
-- Fetches NASA APOD data dynamically using API calls  
-- Displays 9-day gallery with image, title, and date  
-- Modal popup with larger image and full explanation  
-- Handles image *and* video entries  
-- Random “Did You Know?” space fact each time the app loads  
-- Hover zoom effects for smooth interactivity  
-- Fully responsive dark NASA theme inspired by official branding  
+- Fetches data from a JSON feed (no API key required)  
+- 9-day gallery with image, title, and date  
+- Modal popup with HD image or embedded video  
+- Random “Did You Know?” space fact generator  
+- Supports both image and video entries  
+- Skeleton loaders for smooth transitions  
+- Fully responsive dark NASA theme  
 
 ---
 
 ## 🧠 Technologies Used
-
-- HTML5  
-- CSS3 (NASA Dark Theme)  
-- JavaScript (Fetch API, DOM Manipulation)  
-- NASA APOD API: [https://api.nasa.gov/](https://api.nasa.gov/)
+- **HTML5** for structure  
+- **CSS3** for layout and theming  
+- **JavaScript (ES6)** for fetch, async/await, and DOM updates  
+- **Static JSON Feed** mirroring NASA’s APOD API  
 
 ---
 
-## 🔑 API Usage
+## 💡 Why JSON Edition
+Sometimes APIs go offline — this edition shows how developers can pivot quickly, adapt data sources, and keep apps running by switching to a cached or mirrored feed. It’s a real-world lesson in resilient front-end design.
 
-You can use NASA’s demo key (`DEMO_KEY`) for light testing,  
-but it’s recommended to get your own key from [api.nasa.gov](https://api.nasa.gov).
+---
 
-To use your own key, replace this line in **script.js**:
-```js
-const API_KEY = 'QamwyZ2wenX5UKgL12Or1INNlURox2JaCY8CplWd';
+## 🧩 Quick Start
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/nasa-space-explorer.git
+   cd nasa-space-explorer
